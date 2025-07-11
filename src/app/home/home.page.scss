@@ -1,22 +1,43 @@
-.slide-content {
+* {
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+
+.content-title {
   text-align: center;
-  padding: 10px 20px;
+}
+
+.content-title h1 {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 20px 0px 0px 0px;
+}
+
+.slide-content {
+  // text-align: center;z 
+  padding: 10px 40px;
+  margin: 10px 20px;
 }
 
 .slide-content img {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  border-radius: 10px;
-  margin: 20px 0;
+  // width: 100%;
+  // max-width: 400px;
+  // height: auto;
+  // border-radius: 10px;
+  // margin: 20px 0;
 }
 
 .slide-content h2 {
   margin: 0;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: bold;
 }
 
 .slide-content p {
   text-align: justify;
+}
+
+.bg-card-test {
+  background: var(--light-color)
 }

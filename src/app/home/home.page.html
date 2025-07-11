@@ -1,24 +1,72 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Home
+      <div style="display: flex;">
+        <div style="align-content: center;">
+          <span>Music App</span>
+        </div>
+        <div style="margin-left: auto;">
+          <ion-button (click)="cambiarColor()">Cambiar tema</ion-button>
+          <!-- <img src="./../assets/icon/theme-icon.png" alt=""> -->
+        </div>
+      </div>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <swiper-container 
-    pagination="true" loop="true" slides-per-view="1"
-    style="width: 100%; height: 100%;"  
-  >
-    <swiper-slide *ngFor="let genre of genres">
-      <div class="slide-content">
-        <h2>{{ genre.title }}</h2>
-        <img [src]="genre.image" [alt]="genre.title">
-        <p>{{ genre.description }}</p>
+  <div>
+    <div>
+
+      <div>
+        <div class="content-title">
+          <h1>Bienvenido</h1>
+          <p>Aquí tienes las recomendaciones para empezar el día!</p>
+        </div>
       </div>
-    </swiper-slide>
-    <swiper-slide>Slide 2</swiper-slide>
-    <swiper-slide>Slide 3</swiper-slide>
-  </swiper-container>
+
+      <section>
+        <swiper-container pagination="true" loop="true" slides-per-view="1" navigation="true" autoplay = "true">
+          <swiper-slide *ngFor="let genre of genres">
+            <!-- <div class="slide-content">
+              <h2>{{ genre.title }}</h2>
+              <img [src]="genre.image" [alt]="genre.title">
+              <p>{{ genre.description }}</p>
+            </div> -->
+            <div class="slide-content">
+              <ion-card>
+                <img [src]="genre.image" [alt]="genre.title" />
+                <ion-card-header>
+                  <ion-card-title>{{ genre.title }}</ion-card-title>
+                  <ion-card-subtitle>{{ genre.description }}</ion-card-subtitle>
+                </ion-card-header>
+  
+                <!-- <ion-card-content>
+                  Here's a small text description for the card content. Nothing more, nothing less.
+                </ion-card-content> -->
+              </ion-card>
+            </div>
+          </swiper-slide>
+          
+        </swiper-container>
+      
+        <!-- <div [style.background-color]="'var(--dark-color)'">
+          content
+        </div> -->
+      
+      
+        <!-- <ion-card class="bg-card-test">
+          <ion-card-header>
+            <ion-card-title>Card Title</ion-card-title>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+          </ion-card-header>
+      
+          <ion-card-content>
+            Here's a small text description for the card content. Nothing more, nothing less.
+          </ion-card-content>
+        </ion-card> -->
+      </section>
+    </div>
+  </div>
+
 </ion-content>

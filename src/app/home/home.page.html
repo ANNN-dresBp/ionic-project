@@ -14,11 +14,22 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
   <div>
     <div>
-
       <div>
+        <div style="display: flex;">
+          <div style="padding: 5px;">
+            <div class="" id="main-content">
+                <button style="border: 1px solid white; padding: 5px 10px; border-radius: 5px; font-weight: bold;" expand="block" (click)="openViewsMenu()">Menú de vistas</button>
+            </div>
+          </div>
+          <div style="display: flex; gap: 5px; padding: 5px; margin-left: auto;">
+            <span style="font-weight: bold;">Tema actual: </span>
+            <span>{{(actualColor === darkColor) ? 'Oscuro' : 'Claro'}}</span>
+          </div>
+        </div>
         <div class="content-title">
           <h1>Bienvenido</h1>
           <p>Aquí tienes las recomendaciones para empezar el día!</p>
@@ -28,11 +39,6 @@
       <section>
         <swiper-container pagination="true" loop="true" slides-per-view="1" navigation="true" autoplay = "true">
           <swiper-slide *ngFor="let genre of genres">
-            <!-- <div class="slide-content">
-              <h2>{{ genre.title }}</h2>
-              <img [src]="genre.image" [alt]="genre.title">
-              <p>{{ genre.description }}</p>
-            </div> -->
             <div class="slide-content">
               <ion-card>
                 <img [src]="genre.image" [alt]="genre.title" />
@@ -40,33 +46,32 @@
                   <ion-card-title>{{ genre.title }}</ion-card-title>
                   <ion-card-subtitle>{{ genre.description }}</ion-card-subtitle>
                 </ion-card-header>
-  
-                <!-- <ion-card-content>
-                  Here's a small text description for the card content. Nothing more, nothing less.
-                </ion-card-content> -->
               </ion-card>
             </div>
           </swiper-slide>
           
         </swiper-container>
-      
-        <!-- <div [style.background-color]="'var(--dark-color)'">
-          content
-        </div> -->
-      
-      
-        <!-- <ion-card class="bg-card-test">
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-      
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card> -->
       </section>
     </div>
   </div>
+  <ion-menu menuId="first-menu" contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>First Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <section>
+        <div>
+          <div>
+            <ul>
+              <li (click)="goToView('intro')">Intro</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </ion-content>
+  </ion-menu>
+
 
 </ion-content>

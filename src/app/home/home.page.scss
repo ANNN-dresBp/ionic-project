@@ -41,3 +41,12 @@
 .bg-card-test {
   background: var(--light-color)
 }
+
+ion-menu::part(backdrop) {
+  background-color: rgba(145, 145, 145, 0.5);
+}
+
+ion-menu::part(container) {
+  border-radius: 0 20px 20px 0;
+  box-shadow: 4px 0px 16px rgba(202, 202, 202, 0.18);
+}

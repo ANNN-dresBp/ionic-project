@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { StorageService } from '../services/storage.service';
+import { IonHeader, IonToolbar, IonTitle, IonContent, MenuController} from '@ionic/angular/standalone';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/stan
   imports: [IonicModule, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HomePage {
+export class HomePage implements OnInit {
   // headerContainer = document.querySelector('ionic-header');
   lightColor = 'var(--light-color)';
   darkColor = 'var(--dark-color)';
@@ -38,14 +40,42 @@ export class HomePage {
       description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
     }
   ]
-  constructor() {}
+  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router) {}
   
-  cambiarColor () {
+  async ngOnInit () {
+    await this.loadStorageData();
+  }
+
+  async cambiarColor () {
     this.actualColor = (this.actualColor === this.darkColor) ? this.lightColor : this.darkColor;
     this.textColor = (this.actualColor === this.darkColor) ?  this.lightColor : this.darkColor;
     this.toolbarColor = (this.actualColor === this.darkColor) ? this.lighterDarkColor : this.lightColor;
+    this.setColor();
+    await this.storageService.set('theme', {background: this.actualColor, text: this.textColor, toolBar: this.toolbarColor});
+  }
+
+  setColor () {
     document.documentElement.style.setProperty('--ion-toolbar-background', this.toolbarColor);
     document.documentElement.style.setProperty('--ion-background-color', this.actualColor);
     document.documentElement.style.setProperty('--ion-text-color', this.textColor);
+  }
+
+  async loadStorageData () {
+    const savedTheme = await this.storageService.get('theme');
+    if (savedTheme) {
+      this.actualColor = savedTheme?.background;
+      this.textColor = savedTheme?.text;
+      this.toolbarColor =  savedTheme?.toolBar;
+      this.setColor();
+    }
+  }
+
+  openViewsMenu () {
+    this.menuCtrl.open('first-menu');
+    console.log('111')
+  }
+
+  goToView (view: string) {
+    this.router.navigateByUrl(`/${view}`);
   }
 }

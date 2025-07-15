@@ -44,6 +44,7 @@ export class HomePage implements OnInit {
   
   async ngOnInit () {
     await this.loadStorageData();
+    // await this.storageService.set('views', [{name: 'intro', visited: false}]);
   }
 
   async cambiarColor () {
@@ -76,6 +77,16 @@ export class HomePage implements OnInit {
   }
 
   goToView (view: string) {
+    // console.log(typeof this.router)
     this.router.navigateByUrl(`/${view}`);
+  }
+}
+
+
+export class Functions {
+  constructor() {}
+ 
+  goToView (router: Router, viewName: string) {
+    router.navigateByUrl(`/${viewName}`);
   }
 }

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import {Router} from '@angular/router';
 import { StorageService } from '../services/storage.service';
+import { ColorTheme } from '../home/home.page'
 
 @Component({
   selector: 'app-intro',
@@ -13,10 +14,13 @@ import { StorageService } from '../services/storage.service';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class IntroPage implements OnInit {
+  theme: ColorTheme;
+  constructor(private router: Router, private storageService: StorageService) { 
+    this.theme = new ColorTheme(this.storageService);
+  }
 
-  constructor(private router: Router, private storageService: StorageService) { }
-
-  ngOnInit() {
+  async ngOnInit() {
+    await this.theme.loadStorageData();
   }
 
   async goBack () {

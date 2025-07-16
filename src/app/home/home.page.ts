@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -16,13 +16,7 @@ import {Router} from '@angular/router';
 })
 export class HomePage implements OnInit {
   // headerContainer = document.querySelector('ionic-header');
-  lightColor = 'var(--light-color)';
-  darkColor = 'var(--dark-color)';
-  lighterDarkColor = 'var(--lighter-dark-color)'; 
-  actualColor = this.darkColor;
-  textColor = this.lightColor;
-  toolbarColor = this.lighterDarkColor;
-
+  theme: ColorTheme;
   genres = [
     {
       title: "Wu-Tang Clan",
@@ -40,35 +34,13 @@ export class HomePage implements OnInit {
       description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
     }
   ]
-  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router) {}
+  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router) {
+    this.theme = new ColorTheme(this.storageService);
+  }
   
   async ngOnInit () {
-    await this.loadStorageData();
+    await this.theme.loadStorageData();
     // await this.storageService.set('views', [{name: 'intro', visited: false}]);
-  }
-
-  async cambiarColor () {
-    this.actualColor = (this.actualColor === this.darkColor) ? this.lightColor : this.darkColor;
-    this.textColor = (this.actualColor === this.darkColor) ?  this.lightColor : this.darkColor;
-    this.toolbarColor = (this.actualColor === this.darkColor) ? this.lighterDarkColor : this.lightColor;
-    this.setColor();
-    await this.storageService.set('theme', {background: this.actualColor, text: this.textColor, toolBar: this.toolbarColor});
-  }
-
-  setColor () {
-    document.documentElement.style.setProperty('--ion-toolbar-background', this.toolbarColor);
-    document.documentElement.style.setProperty('--ion-background-color', this.actualColor);
-    document.documentElement.style.setProperty('--ion-text-color', this.textColor);
-  }
-
-  async loadStorageData () {
-    const savedTheme = await this.storageService.get('theme');
-    if (savedTheme) {
-      this.actualColor = savedTheme?.background;
-      this.textColor = savedTheme?.text;
-      this.toolbarColor =  savedTheme?.toolBar;
-      this.setColor();
-    }
   }
 
   openViewsMenu () {
@@ -88,5 +60,42 @@ export class Functions {
  
   goToView (router: Router, viewName: string) {
     router.navigateByUrl(`/${viewName}`);
+  }
+}
+
+export class ColorTheme {
+  lightColor = 'var(--light-color)';
+  darkColor = 'var(--dark-color)';
+  lighterDarkColor = 'var(--lighter-dark-color)'; 
+  actualColor = this.darkColor;
+  textColor = this.lightColor;
+  toolbarColor = this.lighterDarkColor;
+  
+  constructor (private storageService: StorageService) {}
+
+  async loadStorageData () {
+    const savedTheme = await this.storageService.get('theme');
+    console.log(savedTheme)
+    if (savedTheme) {
+      console.log('12321312')
+      this.actualColor = savedTheme?.background;
+      this.textColor = savedTheme?.text;
+      this.toolbarColor =  savedTheme?.toolBar;
+      this.setColor();
+    }
+  }
+
+  async cambiarColor () {
+    this.actualColor = (this.actualColor === this.darkColor) ? this.lightColor : this.darkColor;
+    this.textColor = (this.actualColor === this.darkColor) ?  this.lightColor : this.darkColor;
+    this.toolbarColor = (this.actualColor === this.darkColor) ? this.lighterDarkColor : this.lightColor;
+    this.setColor();
+    await this.storageService.set('theme', {background: this.actualColor, text: this.textColor, toolBar: this.toolbarColor});
+  }
+
+  setColor () {
+    document.documentElement.style.setProperty('--ion-toolbar-background', this.toolbarColor);
+    document.documentElement.style.setProperty('--ion-background-color', this.actualColor);
+    document.documentElement.style.setProperty('--ion-text-color', this.textColor);
   }
 }

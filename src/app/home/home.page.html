@@ -1,15 +1,22 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      <div style="display: flex;">
-        <div style="align-content: center;">
-          <span>Music App</span>
-        </div>
+    <ion-title style="padding: 10px;">
+      <ion-row >
+        <ion-row>
+          <ion-col id="main-content" class="ion-align-items-center">
+            <ion-menu-button expand="block" (click)="openViewsMenu()"></ion-menu-button>
+          </ion-col>
+          <div style="align-content: center;">
+            <span>Music App</span>
+          </div>
+        </ion-row>
         <div style="margin-left: auto;">
-          <ion-button (click)="cambiarColor()">Cambiar tema</ion-button>
+          <div>
+            <ion-button (click)="theme.cambiarColor()">Cambiar tema</ion-button>
+          </div>
           <!-- <img src="./../assets/icon/theme-icon.png" alt=""> -->
         </div>
-      </div>
+      </ion-row>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -21,17 +28,15 @@
       <div>
         <div style="display: flex;">
           <div style="padding: 5px;">
-            <div class="" id="main-content">
-                <button style="border: 1px solid white; padding: 5px 10px; border-radius: 5px; font-weight: bold;" expand="block" (click)="openViewsMenu()">Menú</button>
-            </div>
+            
           </div>
           <div style="display: flex; gap: 5px; padding: 5px; margin-left: auto;">
             <span style="font-weight: bold;">Tema actual: </span>
-            <span>{{(actualColor === darkColor) ? 'Oscuro' : 'Claro'}}</span>
+            <span>{{(theme.actualColor === theme.darkColor) ? 'Oscuro' : 'Claro'}}</span>
           </div>
         </div>
         <div class="content-title">
-          <h1>Bienvenido</h1>
+          <h1 style="font-size: 34px">¿Qué escuchamos hoy?</h1>
           <p>Aquí tienes las recomendaciones para empezar el día!</p>
         </div>
       </div>

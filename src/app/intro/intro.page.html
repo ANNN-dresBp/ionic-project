@@ -1,9 +1,186 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Intro</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-    <ion-button (click)="goBack()">Home</ion-button>
+   <div style="border: 0px solid red; height: 100%; width: 100%;"> 
+     <section style="border: 0px solid green; height: 100%;">
+        <div style="height: 100%;">
+          <!-- <div style="width: 80px; height: 80px; background-color: #5861fe; border-radius: 50%; position: absolute; top: -10px; left: -20px;"></div> -->
+          <swiper-container pagination="true" loop="false" slides-per-view="1" navigation="false" style="height: 100%;">
+            <swiper-slide>
+              <div style="height: 100%; display: flex; flex-flow: column; align-items: center; margin-top: 150px;">
+                <div style="width: 500px; height: 450px; border-radius: 10px; padding: 30px 15px; ">
+                  <!-- box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;  -->
+                  <div style="text-align: center;">
+                    <div>
+                      <h1 style="font-weight: bold; font-size: 28px;">Descubre el ritmo de tu vida!</h1>
+                    </div>
+                    <div>
+                      <p style="margin: 0;">Bienvenido a tu nueva experiencia músical favorita! <br> <strong>¿Estás listo?</strong> </p>
+                    </div>
+                    <div  style="position: absolute; left: 0; right: 0;">
+                      <img style="width: 450px;" src="../../assets/images/Intro-Image.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </swiper-slide>
+
+            <swiper-slide>
+              <div style="height: 100%; display: flex; flex-flow: column; align-items: center; justify-content: center; gap: 35px; padding: 15px;">
+                <div style="text-align: center;">
+                  <div>
+                    <h1 style="font-weight: bold;">Conéctate con tu esencia!</h1>
+                  </div>
+                  <div>
+                    <p>Siente la música que te mueve</p>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <img style="border-radius: 0 0 70% 70%" src="../../assets/images/Intro-Image-3-1.png" alt="">
+                  </div>
+                </div>
+                <div style="text-align: center;">
+                  <p>Escuchar tu música favorita puede reducir el estrés y mejorar tu estado de ánimo.</p>
+                </div>
+              </div>
+            </swiper-slide>
+
+            <swiper-slide>
+              <div style="height: 100%;">
+                <div style="overflow: hidden; border: 0px solid red; height: 100%; align-content: center;">
+                  <div style="padding: 5px 15px;text-align: center; margin-bottom: 20px;"> 
+                    <h3 style="font-size: 18px; font-weight: normal">¿Sabías que existen alrededor de <strong>2500</strong> generos y subgeneros músicales distintos?</h3>
+                  </div>
+                  <div style="border: 0px solid blue; height: 550px; align-content: center;">
+                    <div class="cards">
+                      <input type="radio" id="radio-1" name="radio-card" checked>
+                      <article class="card" style="--angle:4deg">
+                        <img class="card-img" src="https://preview.redd.it/jl8thm5coua71.jpg?width=640&crop=smart&auto=webp&s=1546c88fcdd57e355b6e70153b7893e5c425ee1e">
+                      <div class="card-data">
+                          <span class="card-num">1/7</span>
+                          <h2>Rap</h2>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maiores accusantium cumque atque? Ex voluptatem quisquam temporibus. Provident rerum quae nemo eligendi fugiat!</p>
+                          <footer>
+                            <label for="radio-7" aria-label="Previous">&#10094;</label>
+                            <label for="radio-2" aria-label="Next">&#10095;</label>
+                          </footer>
+                        </div>
+                      </article>
+    
+                      <input type="radio" id="radio-2" name="radio-card">
+                      <article class="card" style="--angle:-8deg">
+                        <img class="card-img" src="https://www.cmtv.com.ar/imagenes_artistas/143.webp">
+                        <div class="card-data">
+                          <span class="card-num">2/7</span>
+                          <h2>Rock</h2>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maiores accusantium cumque atque? Ex voluptatem quisquam temporibus. Provident rerum quae nemo eligendi fugiat!</p>
+                          <footer>
+                            <label for="radio-1" aria-label="Previous">&#10094;</label>
+                            <label for="radio-3" aria-label="Next">&#10095;</label>
+                          </footer>
+                        </div>
+                      </article>
+    
+                      <input type="radio" id="radio-3" name="radio-card">
+                      <article class="card" style="--angle:-7deg">
+                        <img class="card-img" src="https://www.rocknfolk.com/wp-content/uploads/2023/02/Michael-Jackson-1.jpg">
+                        <div class="card-data">
+                          <span class="card-num">3/7</span>
+                          <h2>Pop</h2>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maiores accusantium cumque atque? Ex voluptatem quisquam temporibus. Provident rerum quae nemo eligendi fugiat!</p>
+                          <footer>
+                            <label for="radio-2" aria-label="Previous">&#10094;</label>
+                            <label for="radio-4" aria-label="Next">&#10095;</label>
+                          </footer>
+                        </div>
+                      </article>
+    
+                      <input type="radio" id="radio-4" name="radio-card">
+                      <article class="card" style="--angle:11deg">
+                        <img class="card-img" src="https://i.pinimg.com/1200x/ce/dd/e3/cedde3f1620531ec661af8d0613d8d42.jpg">
+                        <div class="card-data">
+                          <span class="card-num">4/7</span>
+                          <h2>Salsa</h2>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maiores accusantium cumque atque? Ex voluptatem quisquam temporibus. Provident rerum quae nemo eligendi fugiat!</p>
+                          <footer>
+                            <label for="radio-3" aria-label="Previous">&#10094;</label>
+                            <label for="radio-5" aria-label="Next">&#10095;</label>
+                          </footer>
+                        </div>
+                      </article>
+    
+                      <input type="radio" id="radio-5" name="radio-card" >
+                      <article class="card" style="--angle:13deg">
+                        <img class="card-img" src="https://www.rutarock.com/wp-content/uploads/2024/05/interpol.jpeg">
+                        <div class="card-data">
+                          <span class="card-num">5/7</span>
+                          <h2>Post punk</h2>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maiores accusantium cumque atque? Ex voluptatem quisquam temporibus. Provident rerum quae nemo eligendi fugiat!</p>
+                          <footer>
+                            <label for="radio-4" aria-label="Previous">&#10094;</label>
+                            <label for="radio-6" aria-label="Next">&#10095;</label>
+                          </footer>
+                        </div>
+                      </article>
+    
+                      <input type="radio" id="radio-6" name="radio-card">
+                      <article class="card" style="--angle:-17deg">
+                        <img class="card-img" src="https://i1.sndcdn.com/artworks-wMXyNabelMEZAHD2-JXthTA-t500x500.jpg" >
+                        <div class="card-data">
+                          <span class="card-num">6/7</span>
+                          <h2>Reggeaton</h2>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maiores accusantium cumque atque? Ex voluptatem quisquam temporibus. Provident rerum quae nemo eligendi fugiat!</p>
+                          <footer>
+                            <label for="radio-5" aria-label="Previous">&#10094;</label>
+                            <label for="radio-7" aria-label="Next">&#10095;</label>
+                          </footer>
+                        </div>
+                      </article>
+    
+                      <input type="radio" id="radio-7" name="radio-card" >
+                      <article class="card" style="--angle:20deg">
+                        <img class="card-img"src="https://rialta.org/wp-content/uploads/2018/09/Coltrane-1.jpg">
+                        <div class="card-data">
+                          <span class="card-num">7/7</span>
+                          <h2>Jazz</h2>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maiores accusantium cumque atque? Ex voluptatem quisquam temporibus. Provident rerum quae nemo eligendi fugiat!</p>
+                          <footer>
+                            <label for="radio-6" aria-label="Previous">&#10094;</label>
+                            <label for="radio-1" aria-label="Next">&#10095;</label>
+                          </footer>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </swiper-slide>
+
+            <swiper-slide>
+              <div style="height: 100%;">
+                <div style="display: flex; flex-flow: column; align-items: center; justify-content: center; gap: 20px; height: 100%;">
+                  <div style="text-align: center;">
+                    <div>
+                      <h1 style="font-weight: bold;">¿Qué estás esperando?</h1>
+                    </div>
+                    <div>
+                      <p>Explora y descubre nuevos sonidos</p>
+                    </div>
+                  </div>
+                  <div style="text-align: center;">
+                    <ion-button (click)="goBack()">Empezar ahora</ion-button>
+                  </div>
+                </div>
+                </div>
+            </swiper-slide>
+          </swiper-container>
+        </div>
+     </section>
+   </div>
 </ion-content>
+<!-- <ion-footer>
+  <div>
+    <div>
+      <ion-button (click)="goBack()">Home</ion-button>
+    </div>
+  </div>
+</ion-footer> -->

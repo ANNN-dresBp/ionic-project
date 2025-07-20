@@ -1,0 +1,32 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <div style="height: 100%;">
+    <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+      <div>
+        <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" formControlName="email" autocomplete="off"></ion-input>
+         <!-- <ion-input label="email" labelPlacement="stacked" placeholder="alskdjaslkd" formControlName="email"></ion-input> -->
+      </div>
+      <div>
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div *ngIf="(loginForm.get('email')?.hasError(validation.type) && loginForm.get('email')?.dirty)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <div>
+        <ion-input type="password" fill="solid" label="Password" labelPlacement="floating" formControlName="password"></ion-input>
+      </div>
+      <div>
+        <!-- loginForm.valid -->
+        <ion-button type="submit">
+          Login
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

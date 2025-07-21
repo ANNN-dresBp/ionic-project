@@ -1,15 +1,65 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header> -->
-
 <ion-content>
   <div style="height: 100%;">
+    <div style="padding: 30px;">
+      <div>
+        <h1 style="font-size: 34px; font-weight: bold; margin-bottom: 0px;">Bienvenido!</h1>
+      </div>
+      <div>
+        <p style="margin: 0px;">¿Listo para una nueva aventura?</p>        
+      </div>
+    </div>
+
+    <div style="height: 100%;">
+      <div style="width: 100%; height: 100%; background-color: #fff; border-radius: 40px 40px 0px 0px; padding: 10px 20px; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;">
+        <div>
+          <div>
+            <h4 style="font-weight: bold; color: black">Iniciar sesión</h4>
+          </div>
+        </div>
+        <div>
+          <div>
+            <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+              <div style="display: flex; flex-flow: column; gap: 20px;">
+                <div>
+                  <div>
+                    <ion-input class="login-inptus" type="email" fill="solid" label="Email" labelPlacement="floating" formControlName="email" autocomplete="off"></ion-input>
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+  
+                <div>
+                  <div>
+                     <ion-input class="login-inptus" type="password" fill="solid" label="Password" labelPlacement="floating" formControlName="password"></ion-input>
+                  </div>
+                </div>
+
+                <div>
+                  <div>
+                    <ion-button type="submit">Ingresar</ion-button>
+                  </div>
+                </div>
+
+                <div>
+                  <div>
+                    <a>Registrarse</a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <div style="height: 100%;">
     <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
       <div>
         <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" formControlName="email" autocomplete="off"></ion-input>
-         <!-- <ion-input label="email" labelPlacement="stacked" placeholder="alskdjaslkd" formControlName="email"></ion-input> -->
       </div>
       <div>
         <ng-container *ngFor="let validation of validation_messages.email">
@@ -22,11 +72,11 @@
         <ion-input type="password" fill="solid" label="Password" labelPlacement="floating" formControlName="password"></ion-input>
       </div>
       <div>
-        <!-- loginForm.valid -->
         <ion-button type="submit">
           Login
         </ion-button>
       </div>
     </form>
-  </div>
+  </div> -->
 </ion-content>
+<!-- loginForm.valid -->

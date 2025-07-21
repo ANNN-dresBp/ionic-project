@@ -14,7 +14,10 @@ export class IntroGuard implements CanActivate {
   
   async canActivate () {
     const viewData = await this.storageService.get('views');
-    console.log(viewData);
+    if (!viewData) {
+      this.router.navigateByUrl(`/intro`);
+      return false;
+    }
     const intro = viewData.filter((view: {name: string}) => view?.name === 'intro');
 
     if (Array.isArray(intro) && (intro.length > 0)) {

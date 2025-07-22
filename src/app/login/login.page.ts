@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { IonicModule, ToastController} from '@ionic/angular';
+import { IonicModule, ToastController, NavController} from '@ionic/angular';
+import { AuthService } from '../services/auth.service'; 
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,7 @@ export class LoginPage implements OnInit {
     ]
   }
 
-  constructor( private formBuilder: FormBuilder, private toastController: ToastController) {
+  constructor( private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController) {
     this.loginForm = this.formBuilder.group(
       {
         email: new FormControl (
@@ -80,8 +81,15 @@ export class LoginPage implements OnInit {
 
       await this.presentToast(messageToShow, 'danger');
     } else {
-      console.log('Credenciales válidas:', credentials);
-      await this.presentToast('Inicio de sesión exitoso', 'success');
+      const loginErrorMessage = '';
+      this.authService.loginUser(credentials).then(res =>  {
+        this.navCtrl.navigateForward('/home');
+        console.log(res);
+      }).catch(async (error) => {
+        await this.presentToast('Credenciales incorrectas', 'danger');
+      });
+      // console.log('Credenciales válidas:', credentials);
+      // await this.presentToast('Inicio de sesión exitoso', 'success');
     }
   }
 

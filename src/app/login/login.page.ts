@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { IonicModule, ToastController, NavController} from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
 import { AuthService } from '../services/auth.service'; 
 
 @Component({
@@ -34,7 +35,7 @@ export class LoginPage implements OnInit {
     ]
   }
 
-  constructor( private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController) {
+  constructor( private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController, private storageService: StorageService) {
     this.loginForm = this.formBuilder.group(
       {
         email: new FormControl (
@@ -82,14 +83,12 @@ export class LoginPage implements OnInit {
       await this.presentToast(messageToShow, 'danger');
     } else {
       const loginErrorMessage = '';
-      this.authService.loginUser(credentials).then(res =>  {
+      this.authService.loginUser(credentials).then(async (res) =>  {
         this.navCtrl.navigateForward('/home');
-        console.log(res);
+        await this.storageService.set('userSession', {loggedIn: true});
       }).catch(async (error) => {
         await this.presentToast('Credenciales incorrectas', 'danger');
       });
-      // console.log('Credenciales válidas:', credentials);
-      // await this.presentToast('Inicio de sesión exitoso', 'success');
     }
   }
 

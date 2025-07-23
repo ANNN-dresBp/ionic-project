@@ -77,12 +77,11 @@ export class ColorTheme {
     const savedTheme = await this.storageService.get('theme');
     console.log(savedTheme)
     if (savedTheme) {
-      console.log('12321312')
       this.actualColor = savedTheme?.background;
       this.textColor = savedTheme?.text;
       this.toolbarColor =  savedTheme?.toolBar;
-      this.setColor();
     }
+    this.setColor();
   }
 
   async cambiarColor () {

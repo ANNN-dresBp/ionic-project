@@ -6,19 +6,31 @@ import { StorageService } from '../services/storage.service';
 import { AuthService } from '../services/auth.service'; 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, IonicModule, ReactiveFormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class LoginPage implements OnInit {
-  loginForm: FormGroup;
+
+export class RegisterPage implements OnInit {
+  registerForm: FormGroup;
   private currentToast: HTMLIonToastElement | null = null;
 
   validation_messages = {
+    name: [
+      {
+        type: 'required', message: 'Debe ingresar su(s) nombre(s)!',
+      }
+    ],
+    lastName: [
+      {
+        type: 'required', message: 'Debe ingresar su(s) apellido(s)!',
+      }
+    ],
     email: [
       {
         type: 'required', message: 'Debe ingresar un correo!',
@@ -37,9 +49,25 @@ export class LoginPage implements OnInit {
     ]
   }
 
-  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController, private storageService: StorageService) {
-    this.loginForm = this.formBuilder.group(
+  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController, private storageService: StorageService) { 
+    this.registerForm = this.formBuilder.group(
       {
+        name: new FormControl (
+          '',
+          Validators.compose(
+            [
+              Validators.required,
+            ]
+          )
+        ),
+        lastName: new FormControl (
+          '',
+          Validators.compose(
+            [
+              Validators.required,
+            ]
+          )
+        ),
         email: new FormControl (
           '',
           Validators.compose(
@@ -61,12 +89,12 @@ export class LoginPage implements OnInit {
       }
     );
   }
-  
+
   ngOnInit() {
   }
 
-  async loginUser(credentials: any) {
-    const validationResult = this.loginValidations(this.loginForm);
+  async registerUser(credentials: any) {
+    const validationResult = this.registerValidations(this.registerForm);
     if (!validationResult.validation) {
       const moduleName = validationResult.module as keyof typeof this.validation_messages;
       const errorType = validationResult.typeError;
@@ -85,21 +113,29 @@ export class LoginPage implements OnInit {
       await this.presentToast(messageToShow, 'danger');
     } else {
       const loginErrorMessage = '';
-      this.authService.loginUser(credentials).then(async (res) =>  {
-        this.navCtrl.navigateForward('menu/home');
-        await this.storageService.set('userSession', {loggedIn: true});
+      this.authService.registerUser(credentials).then(async (res) =>  {
+        this.navCtrl.navigateForward('/login');
+        await this.storageService.set('userData', credentials);
       }).catch(async (error) => {
         await this.presentToast('Credenciales incorrectas', 'danger');
       });
     }
   }
 
-  loginValidations (loginObj: {get: (key: string) => any}) {
-    const emailInput = loginObj.get('email');
-    const passwordInput = loginObj.get('password');
+  registerValidations (registerObj: {get: (key: string) => any}) {
+    const nameInput = registerObj.get('name');
+    const lastNameInput = registerObj.get('lastName');
+    const emailInput = registerObj.get('email');
+    const passwordInput = registerObj.get('password');
     let error = '';
     
-    if ((emailInput.errors)) {
+    if ((nameInput.errors)) {
+      error = Object.keys(nameInput.errors)[0];
+      return {validation: false, module: 'name', typeError: error};
+    } else if ((lastNameInput.errors)) {
+      error = Object.keys(lastNameInput.errors)[0];
+      return {validation: false, module: 'lastName', typeError: error};
+    } else if ((emailInput.errors)) {
       error = Object.keys(emailInput.errors)[0];
       return {validation: false, module: 'email', typeError: error};
     } else if (passwordInput.errors){
@@ -124,7 +160,6 @@ export class LoginPage implements OnInit {
     });
 
     this.currentToast = toast;
-
     await toast.present();
 
     toast.onDidDismiss().then(() => {
@@ -134,7 +169,7 @@ export class LoginPage implements OnInit {
     });
   }
 
-  goToRegister() {
-    this.navCtrl.navigateForward('/register');
+  goBackLogin() {
+    this.navCtrl.navigateBack('/login');
   }
 }

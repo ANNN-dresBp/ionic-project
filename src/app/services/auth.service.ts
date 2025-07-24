@@ -16,4 +16,14 @@ export class AuthService {
       }
     })
   }
+
+  registerUser(credentials: any) {
+    return new Promise((accept, reject) => {
+      if (credentials.name && credentials.lastName && credentials.email && credentials.password) {
+        accept('Usuario creado exitosamente');
+      } else {
+        reject('No se pudo crear el usuario');
+      }
+    })
+  }
 }

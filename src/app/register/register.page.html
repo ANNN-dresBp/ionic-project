@@ -1,0 +1,65 @@
+<ion-content>
+  <div style="height: 100%; overflow: hidden;">
+    <div style="padding: 20px 30px;">
+      <div>
+        <h1 style="font-size: 34px; font-weight: bold; margin-bottom: 0px;">Registrate!</h1>
+      </div>
+      <div>
+        <p style="margin: 0px;">Crea una cuenta y comienza a disfrutar</p>        
+      </div>
+    </div>
+
+    <div style="height: 100%;">
+      <div style="width: 100%; height: 100%; background-color: #fff; border-radius: 40px 40px 0px 0px; padding: 10px 20px; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;">
+        <div>
+          <div>
+            <h6 style="font-weight: bold; color: black">Ingresa tus datos</h6>
+          </div>
+        </div>
+        <div>
+          <div>
+            <form [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
+              <div style="display: flex; flex-flow: column; gap: 10px;">
+                <div>
+                  <div>
+                    <ion-input class="login-inptus" type="text" fill="solid" label="Nombre" labelPlacement="floating" formControlName="name"></ion-input>
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+  
+                <div>
+                  <div>
+                     <ion-input class="login-inptus" type="text" fill="solid" label="Apellido" labelPlacement="floating" formControlName="lastName"></ion-input>
+                  </div>
+                </div>
+
+                <div>
+                  <div>
+                     <ion-input class="login-inptus" type="email" fill="solid" label="Correo" labelPlacement="floating" formControlName="email"></ion-input>
+                  </div>
+                </div>
+
+                <div>
+                  <div>
+                     <ion-input class="login-inptus" type="password" fill="solid" label="Constraseña" labelPlacement="floating" formControlName="password"></ion-input>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                  <div>
+                    <ion-button (click)="goBackLogin()">Regresar al Login</ion-button>
+                  </div>
+                  <div>
+                    <ion-button type="submit">Crear Cuenta</ion-button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -31,7 +31,7 @@ export class IntroPage implements OnInit {
 
   async goBack () {
     await this.storageService.set('views', [{name: 'intro', visited: true}]);
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('menu/home');
   }
 
 }

@@ -5,6 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { IonHeader, IonToolbar, IonTitle, IonContent, MenuController} from '@ionic/angular/standalone';
 import {Router} from '@angular/router';
+import { MusicService } from '../services/music.service';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ import {Router} from '@angular/router';
 export class HomePage implements OnInit {
   // headerContainer = document.querySelector('ionic-header');
   theme: ColorTheme;
+  tracks: any;
   genres = [
     {
       title: "Wu-Tang Clan",
@@ -34,12 +36,13 @@ export class HomePage implements OnInit {
       description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
     }
   ]
-  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router) {
+  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router, private musiService: MusicService) {
     this.theme = new ColorTheme(this.storageService);
   }
   
   async ngOnInit () {
     await this.theme.loadStorageData();
+    this.loadTracks();
     // await this.storageService.set('views', [{name: 'intro', visited: false}]);
   }
 
@@ -52,14 +55,21 @@ export class HomePage implements OnInit {
     // console.log(typeof this.router)
     this.router.navigateByUrl(`/${view}`);
   }
+
+  loadTracks() {
+    this.musiService.getTracks().then(tracks => {
+      this.tracks = tracks
+      console.log(this.tracks)
+    });
+  }
 }
 
 
-export class Functions {
-  constructor() {}
+export class RoutesNavigation {
+  constructor(private router: Router) {}
  
-  goToView (router: Router, viewName: string) {
-    router.navigateByUrl(`/${viewName}`);
+  goToView (viewName: string) {
+    this.router.navigateByUrl(`/${viewName}`);
   }
 }
 

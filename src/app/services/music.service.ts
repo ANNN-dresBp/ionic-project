@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as dataArtists from './artistas.json';
 
 @Injectable({
   providedIn: 'root'
@@ -12,4 +13,20 @@ export class MusicService {
       response => response.json() 
     );
   }
-}
+
+  getAlbums() {
+    return fetch(`${this.urlServer}/albums`).then(
+      response => response.json() 
+    );
+  }
+
+  getLocalArtists() {
+    return dataArtists.artists;
+  }
+
+  getSongsByAlbum(id: string) {
+    return fetch(`${this.urlServer}/tracks/album/${id}`).then(
+      response => response.json() 
+    );
+  }
+} 

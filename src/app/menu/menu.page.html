@@ -11,13 +11,20 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div>
-        <ul>
-          <li (click)="this.functions.goToView('/intro')">
-            Intro
-          </li>
-        </ul>
-      </div>
+      <section style="display: flex; flex-flow: column; height: 100%;">
+        <div>
+          <ul>
+            <li (click)="this.functions.goToView('/intro')">
+              Intro
+            </li>
+          </ul>
+        </div>
+        <div style="margin-top: auto;">
+          <ion-button (click)="goToLogin()">
+            Cerrar sesión
+          </ion-button>
+        </div>
+      </section>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>

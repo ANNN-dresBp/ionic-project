@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -19,30 +19,34 @@ export class HomePage implements OnInit {
   // headerContainer = document.querySelector('ionic-header');
   theme: ColorTheme;
   tracks: any;
-  genres = [
-    {
-      title: "Wu-Tang Clan",
-      image: "https://m.media-amazon.com/images/S/pv-target-images/489efd72a1886f9387d9c415d691d61195a0d42b438ff779c22f4c90de17b61e._SX1080_FMjpg_.jpg",
-      description: "Wu-Tang Clan es un grupo estadounidense de rap originario de Staten Island, Nueva York. El grupo está formado por nueve MC's. Todos sus miembros han lanzado álbumes solistas, y el grupo ha producido diferentes grupos y solistas."
-    },
-    {
-      title: "Música 2",
-      image: "https://m.media-amazon.com/images/S/pv-target-images/489efd72a1886f9387d9c415d691d61195a0d42b438ff779c22f4c90de17b61e._SX1080_FMjpg_.jpg",
-      description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
-    },
-    {
-      title: "Música 3",
-      image: "https://m.media-amazon.com/images/S/pv-target-images/489efd72a1886f9387d9c415d691d61195a0d42b438ff779c22f4c90de17b61e._SX1080_FMjpg_.jpg",
-      description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
-    }
-  ]
-  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router, private musiService: MusicService) {
-    this.theme = new ColorTheme(this.storageService);
+  artists: any;
+  albums: any;
+  // genres = [
+  //   {
+  //     title: "Wu-Tang Clan",
+  //     image: "https://m.media-amazon.com/images/S/pv-target-images/489efd72a1886f9387d9c415d691d61195a0d42b438ff779c22f4c90de17b61e._SX1080_FMjpg_.jpg",
+  //     description: "Wu-Tang Clan es un grupo estadounidense de rap originario de Staten Island, Nueva York. El grupo está formado por nueve MC's. Todos sus miembros han lanzado álbumes solistas, y el grupo ha producido diferentes grupos y solistas."
+  //   },
+  //   {
+  //     title: "Música 2",
+  //     image: "https://m.media-amazon.com/images/S/pv-target-images/489efd72a1886f9387d9c415d691d61195a0d42b438ff779c22f4c90de17b61e._SX1080_FMjpg_.jpg",
+  //     description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
+  //   },
+  //   {
+  //     title: "Música 3",
+  //     image: "https://m.media-amazon.com/images/S/pv-target-images/489efd72a1886f9387d9c415d691d61195a0d42b438ff779c22f4c90de17b61e._SX1080_FMjpg_.jpg",
+  //     description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
+  //   }
+  // ]
+  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router, private musiService: MusicService, private element: ElementRef) {
+    this.theme = new ColorTheme(this.storageService, this.element);
   }
   
   async ngOnInit () {
     await this.theme.loadStorageData();
     this.loadTracks();
+    this.loadAlbums();
+    this.loadArtists();
     // await this.storageService.set('views', [{name: 'intro', visited: false}]);
   }
 
@@ -61,6 +65,24 @@ export class HomePage implements OnInit {
       this.tracks = tracks
       console.log(this.tracks)
     });
+  }
+
+  loadAlbums() {
+    this.musiService.getAlbums().then(albums => {
+      this.albums = albums
+      console.log(this.albums)
+    });
+  }
+
+  loadArtists() {
+    this.artists = this.musiService.getLocalArtists();
+    console.log(this.artists);
+  }
+
+  async loadSongsByAlbum(albumId: string) {
+    // console.log(albumId)
+    const songs = await this.musiService.getSongsByAlbum(albumId);
+    console.log(songs)
   }
 }
 
@@ -81,11 +103,11 @@ export class ColorTheme {
   textColor = this.lightColor;
   toolbarColor = this.lighterDarkColor;
   
-  constructor (private storageService: StorageService) {}
+  constructor (private storageService: StorageService, private element: ElementRef) {}
 
   async loadStorageData () {
     const savedTheme = await this.storageService.get('theme');
-    console.log(savedTheme)
+    // console.log(savedTheme)
     if (savedTheme) {
       this.actualColor = savedTheme?.background;
       this.textColor = savedTheme?.text;
@@ -103,8 +125,13 @@ export class ColorTheme {
   }
 
   setColor () {
-    document.documentElement.style.setProperty('--ion-toolbar-background', this.toolbarColor);
-    document.documentElement.style.setProperty('--ion-background-color', this.actualColor);
-    document.documentElement.style.setProperty('--ion-text-color', this.textColor);
+    const hostElement = this.element.nativeElement;
+    hostElement.style.setProperty('--ion-toolbar-background', this.toolbarColor);
+    hostElement.style.setProperty('--ion-background-color', this.actualColor);
+    hostElement.style.setProperty('--ion-text-color', this.textColor);
+
+    // document.documentElement.style.setProperty('--ion-toolbar-background', this.toolbarColor);
+    // document.documentElement.style.setProperty('--ion-background-color', this.actualColor);
+    // document.documentElement.style.setProperty('--ion-text-color', this.textColor);
   }
 }

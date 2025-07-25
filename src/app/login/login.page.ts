@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl, NgForm  } from '@angular/forms';
 import { IonicModule, ToastController, NavController} from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 import { AuthService } from '../services/auth.service'; 
@@ -16,6 +16,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
+  @ViewChild('miFormulario', { static: false }) miFormulario!: NgForm;
   private currentToast: HTMLIonToastElement | null = null;
 
   validation_messages = {
@@ -65,6 +66,16 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewWillLeave() {
+    this.resetForm();
+  }
+
+  resetForm () {
+    if (this.miFormulario) {
+      this.miFormulario.resetForm();
+    }
+  }
+
   async loginUser(credentials: any) {
     const validationResult = this.loginValidations(this.loginForm);
     if (!validationResult.validation) {
@@ -86,8 +97,8 @@ export class LoginPage implements OnInit {
     } else {
       const loginErrorMessage = '';
       this.authService.loginUser(credentials).then(async (res) =>  {
-        this.navCtrl.navigateForward('menu/home');
         await this.storageService.set('userSession', {loggedIn: true});
+        this.navCtrl.navigateForward('menu/home');
       }).catch(async (error) => {
         await this.presentToast('Credenciales incorrectas', 'danger');
       });

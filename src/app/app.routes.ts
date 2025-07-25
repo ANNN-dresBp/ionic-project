@@ -5,20 +5,29 @@ import { LoginGuard } from './guards/login.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'menu/home',
     pathMatch: 'full',
   },
   {
     path: 'intro',
-    loadComponent: () => import('./intro/intro.page').then( m => m.IntroPage), canActivate: [LoginGuard]
+    loadComponent: () => import('./intro/intro.page').then( m => m.IntroPage), canActivate: [LoginGuard],
+    data: {
+      noCache: true
+    }
   },
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage),
+    data: {
+      noCache: true
+    }
   },
   {
     path: 'register',
-    loadComponent: () => import('./register/register.page').then( m => m.RegisterPage)
+    loadComponent: () => import('./register/register.page').then( m => m.RegisterPage),
+    data: {
+      noCache: true
+    }
   },
   {
     path: 'menu',

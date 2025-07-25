@@ -18,7 +18,7 @@
         </div>
         <div>
           <div>
-            <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+            <form #miFormulario="ngForm" [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
               <div style="display: flex; flex-flow: column; gap: 20px;">
                 <div>
                   <div>

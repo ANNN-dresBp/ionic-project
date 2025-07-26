@@ -22,6 +22,12 @@ export class HomePage implements OnInit {
   tracks: any;
   artists: any;
   albums: any;
+  song: any = {
+    name: '',
+    preview_url: '',
+    playing: false,
+  };
+  currentSong: any;
   // genres = [
   //   {
   //     title: "Wu-Tang Clan",
@@ -86,6 +92,12 @@ export class HomePage implements OnInit {
         }
       }
     );
+    modal.onDidDismiss().then((result) =>  {
+      if (result.data) {
+        console.log(result.data);
+        this.song = result.data;
+      }
+    })
     modal.present();
     // console.log(songs)
   }

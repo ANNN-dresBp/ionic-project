@@ -1,6 +1,6 @@
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let song of songs; index as idx">
+    <ion-item *ngFor="let song of songs; index as idx" (click)="selectedSong(song)">
       <ion-avatar>
         {{ idx + 1 }}
       </ion-avatar>

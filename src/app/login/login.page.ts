@@ -5,6 +5,8 @@ import { IonicModule, ToastController, NavController} from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 import { AuthService } from '../services/auth.service'; 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Alerts } from '../helpers/classes';
+import {  UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +18,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
+  alerts: Alerts;
   @ViewChild('miFormulario', { static: false }) miFormulario!: NgForm;
   private currentToast: HTMLIonToastElement | null = null;
 
@@ -38,7 +41,8 @@ export class LoginPage implements OnInit {
     ]
   }
 
-  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController, private storageService: StorageService) {
+  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController, private storageService: StorageService, private userService: UserService) {
+    this.alerts = new Alerts(toastController);
     this.loginForm = this.formBuilder.group(
       {
         email: new FormControl (
@@ -93,14 +97,20 @@ export class LoginPage implements OnInit {
         }
       }
 
-      await this.presentToast(messageToShow, 'danger');
+      await this.alerts.presentToast(messageToShow, 'danger');
     } else {
       const loginErrorMessage = '';
       this.authService.loginUser(credentials).then(async (res) =>  {
-        await this.storageService.set('userSession', {loggedIn: true});
-        this.navCtrl.navigateForward('menu/home');
+        const userLogged = await this.userService.loginUser(credentials);
+        if (userLogged.status == 'OK') {
+          await this.alerts.presentToast('Inicio de sesión exitoso', 'success');
+          setTimeout(async () => {
+            await this.storageService.set('userSession', {loggedIn: true});
+            this.navCtrl.navigateForward('menu/home');
+          }, 1000);
+        } 
       }).catch(async (error) => {
-        await this.presentToast('Credenciales incorrectas', 'danger');
+        await this.alerts.presentToast('Credenciales incorrectas', 'danger');
       });
     }
   }
@@ -119,30 +129,6 @@ export class LoginPage implements OnInit {
     }
 
     return {validation: true};
-  }
-
-  async presentToast(message: string, color: string) {
-    if (this.currentToast) {
-      this.currentToast.remove();
-      this.currentToast = null;
-    }
-
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      position: 'bottom',
-      color: color,
-    });
-
-    this.currentToast = toast;
-
-    await toast.present();
-
-    toast.onDidDismiss().then(() => {
-      if (this.currentToast === toast) { 
-        this.currentToast = null;
-      }
-    });
   }
 
   goToRegister() {

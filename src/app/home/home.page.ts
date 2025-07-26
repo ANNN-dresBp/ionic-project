@@ -1,11 +1,12 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController} from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { IonHeader, IonToolbar, IonTitle, IonContent, MenuController} from '@ionic/angular/standalone';
 import {Router} from '@angular/router';
 import { MusicService } from '../services/music.service';
+import { SongsModalPage } from '../songs-modal/songs-modal.page';
 
 @Component({
   selector: 'app-home',
@@ -38,7 +39,7 @@ export class HomePage implements OnInit {
   //     description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit aliquid adipisci, officia doloribus ea iure ipsam praesentium sit earum molestiae dolorum, maxime, quam aperiam iusto. Dicta delectus doloremque illo dolores."
   //   }
   // ]
-  constructor(private storageService: StorageService, private menuCtrl: MenuController, private router: Router, private musiService: MusicService, private element: ElementRef) {
+  constructor(private storageService: StorageService, private router: Router, private musicService: MusicService, private element: ElementRef, private modalController: ModalController) {
     this.theme = new ColorTheme(this.storageService, this.element);
   }
   
@@ -50,39 +51,43 @@ export class HomePage implements OnInit {
     // await this.storageService.set('views', [{name: 'intro', visited: false}]);
   }
 
-  openViewsMenu () {
-    this.menuCtrl.open('first-menu');
-    console.log('111')
-  }
-
   goToView (view: string) {
     // console.log(typeof this.router)
     this.router.navigateByUrl(`/${view}`);
   }
 
   loadTracks() {
-    this.musiService.getTracks().then(tracks => {
+    this.musicService.getTracks().then(tracks => {
       this.tracks = tracks
       console.log(this.tracks)
     });
   }
 
   loadAlbums() {
-    this.musiService.getAlbums().then(albums => {
+    this.musicService.getAlbums().then(albums => {
       this.albums = albums
       console.log(this.albums)
     });
   }
 
   loadArtists() {
-    this.artists = this.musiService.getLocalArtists();
+    this.artists = this.musicService.getLocalArtists();
     console.log(this.artists);
   }
 
   async loadSongsByAlbum(albumId: string) {
     // console.log(albumId)
-    const songs = await this.musiService.getSongsByAlbum(albumId);
-    console.log(songs)
+    const songs = await this.musicService.getSongsByAlbum(albumId);
+    const modal = await this.modalController.create(
+      {
+        component: SongsModalPage,
+        componentProps: {
+          songs: songs
+        }
+      }
+    );
+    modal.present();
+    // console.log(songs)
   }
 }
 

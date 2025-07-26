@@ -5,7 +5,8 @@ import { IonicModule, ToastController, NavController} from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 import { AuthService } from '../services/auth.service'; 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
+import { Alerts } from '../helpers/classes';
+import {  UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 })
 
 export class RegisterPage implements OnInit {
+  alerts: Alerts;
   registerForm: FormGroup;
   private currentToast: HTMLIonToastElement | null = null;
 
@@ -26,7 +28,7 @@ export class RegisterPage implements OnInit {
         type: 'required', message: 'Debe ingresar su(s) nombre(s)!',
       }
     ],
-    lastName: [
+    userName: [
       {
         type: 'required', message: 'Debe ingresar su(s) apellido(s)!',
       }
@@ -44,12 +46,16 @@ export class RegisterPage implements OnInit {
         type: 'required', message: 'Debe ingresar la contraseña!'
       },
       {
-        type: 'minLength', message: 'Cantidad de caracteres incorrecta'
-      }
+        type: 'minlength', message: 'Cantidad de caracteres incorrecta'
+      },
+      {
+        type: 'confirm', message: 'Las contraseñas no coinciden'
+      } 
     ]
   }
 
-  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController, private storageService: StorageService) { 
+  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private authService: AuthService, private navCtrl: NavController, private storageService: StorageService, private userService: UserService) { 
+    this.alerts = new Alerts(toastController);
     this.registerForm = this.formBuilder.group(
       {
         name: new FormControl (
@@ -60,7 +66,7 @@ export class RegisterPage implements OnInit {
             ]
           )
         ),
-        lastName: new FormControl (
+        userName: new FormControl (
           '',
           Validators.compose(
             [
@@ -78,6 +84,15 @@ export class RegisterPage implements OnInit {
           )
         ),
         password: new FormControl (
+          '',
+          Validators.compose(
+            [
+              Validators.required,
+              Validators.minLength(8)
+            ]
+          )
+        ),
+        passwordConfirm: new FormControl (
           '',
           Validators.compose(
             [
@@ -109,64 +124,52 @@ export class RegisterPage implements OnInit {
           messageToShow = errorMessageObj.message;
         }
       }
-
-      await this.presentToast(messageToShow, 'danger');
+      await this.alerts.presentToast(messageToShow, 'danger');
     } else {
       const loginErrorMessage = '';
+      console.log(credentials);
       this.authService.registerUser(credentials).then(async (res) =>  {
-        this.navCtrl.navigateForward('/login');
+        console.log(res)
+        console.log(credentials)
+        const registeredUser = this.userService.registerUser(credentials);
+        console.log(registeredUser);
         await this.storageService.set('userData', credentials);
+        // const registeredUser = this.registerUser(credentials);
+        // this.navCtrl.navigateForward('/login');
       }).catch(async (error) => {
-        await this.presentToast('Credenciales incorrectas', 'danger');
+        await this.alerts.presentToast('Credenciales incorrectas', 'danger');
       });
     }
   }
 
   registerValidations (registerObj: {get: (key: string) => any}) {
     const nameInput = registerObj.get('name');
-    const lastNameInput = registerObj.get('lastName');
+    const userNameInput = registerObj.get('userName');
     const emailInput = registerObj.get('email');
     const passwordInput = registerObj.get('password');
+    const passwordConfirm = registerObj.get('passwordConfirm');
     let error = '';
-    
+    // console.log(passwordConfirm)
     if ((nameInput.errors)) {
       error = Object.keys(nameInput.errors)[0];
       return {validation: false, module: 'name', typeError: error};
-    } else if ((lastNameInput.errors)) {
-      error = Object.keys(lastNameInput.errors)[0];
-      return {validation: false, module: 'lastName', typeError: error};
+    } else if ((userNameInput.errors)) {
+      error = Object.keys(userNameInput.errors)[0];
+      return {validation: false, module: 'userName', typeError: error};
     } else if ((emailInput.errors)) {
       error = Object.keys(emailInput.errors)[0];
       return {validation: false, module: 'email', typeError: error};
-    } else if (passwordInput.errors){
+    } else if (passwordInput.errors) {
       error = Object.keys(passwordInput.errors)[0];
       return {validation: false, module: 'password', typeError: error};
+    } else if (passwordConfirm.errors) {
+      error = Object.keys(passwordConfirm.errors)[0];
+      return {validation: false, module: 'password', typeError: error};
+    } else if (passwordInput.value !== passwordConfirm.value) {
+      return {validation: false, module: 'password', typeError: 'confirm'};
     }
 
     return {validation: true};
-  }
-
-  async presentToast(message: string, color: string) {
-    if (this.currentToast) {
-      this.currentToast.remove();
-      this.currentToast = null;
-    }
-
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      position: 'bottom',
-      color: color,
-    });
-
-    this.currentToast = toast;
-    await toast.present();
-
-    toast.onDidDismiss().then(() => {
-      if (this.currentToast === toast) { 
-        this.currentToast = null;
-      }
-    });
   }
 
   goBackLogin() {

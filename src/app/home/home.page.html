@@ -27,39 +27,78 @@
     <div>
       <div>
         <div style="display: flex;">
-          <div style="padding: 5px;">
-            
-          </div>
           <div style="display: flex; gap: 5px; padding: 5px; margin-left: auto;">
-            <span style="font-weight: bold;">Tema actual: </span>
-            <span>{{(theme.actualColor === theme.darkColor) ? 'Oscuro' : 'Claro'}}</span>
+            <!-- <span style="font-weight: bold;">Tema actual: </span>
+            <span>{{(theme.actualColor === theme.darkColor) ? 'Oscuro' : 'Claro'}}</span> -->
           </div>
-        </div>
-        <div class="content-title">
-          <h1 style="font-size: 34px">¿Qué escuchamos hoy?</h1>
-          <p>Aquí tienes las recomendaciones para empezar el día!</p>
         </div>
       </div>
 
       <section>
-        <swiper-container pagination="true" loop="true" slides-per-view="2" navigation="true" autoplay = "true">
+        <div style="padding: 5px 15px;">
+          <div>
+            <h2>
+              <strong>
+                Recomendaciones del día
+              </strong>
+            </h2>
+          </div>
+          <div>
+            <div>
+              <div>
+                <div>
+                  <h4>
+                      Albumes
+                  </h4>
+                </div>
+                <div>
+                  <swiper-container slides-per-view="1" freemode="true">
+                    <swiper-slide *ngFor="let album of albums" (click)="loadSongsByAlbum(album.id)">
+                      <div style="border: 1px solid black; border-radius: 50px 10px 10px 50px; overflow: hidden;">
+                        <div style="display: flex; height: 180px">
+                          <div style="border: 1px solid green;">
+                            <div>
+                              <div style="">
+                                 <img [src]="album.image" [alt]="album.label" style="width: 180px;">
+                              </div>
+                            </div>
+                          </div>
+                          <div style="border: 1px solid red"></div>
+                        </div>
+                      </div>
+                      <!-- <div style="width: 200px;">
+                        <div>
+                          <div>
+                            <img [src]="album.image" [alt]="album.label" style="width: 250px;">
+                          </div>
+                        </div>
+                        <div>
+                          <div>
+                            <span>
+                              <strong>
+                                {{ album.name }}
+                              </strong>
+                            </span>
+                          </div>
+                        </div>
+                      </div> -->
+                    </swiper-slide>
+                  </swiper-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <swiper-container pagination="true" loop="true" slides-per-view="2" navigation="false">
           <swiper-slide *ngFor="let album of albums" (click)="loadSongsByAlbum(album.id)">
             <div class="slide-content">
-              <!-- <ion-card>
-                <ion-card-header>
-                  <ion-card-title> -->
                     <img [src]="album.image"z>
                     <h4>
                       {{ album.name }}
                     </h4>
-                  <!-- </ion-card-title> -->
-                  <!-- <ion-card-subtitle>{{ genre.description }}</ion-card-subtitle> -->
-                <!-- </ion-card-header> -->
-              <!-- </ion-card> -->
             </div>
           </swiper-slide>
-          
-        </swiper-container>
+        </swiper-container> -->
       </section>
 
       <!-- <section>

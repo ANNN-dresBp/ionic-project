@@ -1,0 +1,22 @@
+.main-container-songs-list {
+    background-color: var(--main-color);
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.main-container-songs-list .track-number {
+    align-content: center;
+}
+.main-container-songs-list .add-song {
+    color: var(--main-color);
+    background-color: var(--light-color);
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    align-content: center;
+    text-align: center;
+}

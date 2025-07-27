@@ -1,14 +1,31 @@
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let song of songs; index as idx" (click)="selectedSong(song)">
-      <ion-avatar>
-        {{ idx + 1 }}
-      </ion-avatar>
-      <ion-label>
-        <h2>
-          {{ song.name }}
-        </h2>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <div style="padding: 10px;">
+    <div style="display: flex;">
+      <div (click)="closeModal()" style="margin-left: auto; font-size: 30px; align-content: center;">
+        <ion-icon name="close"></ion-icon>
+      </div>
+    </div>
+    <div style="display: flex;">
+      <div>
+        <h1>
+          <strong>
+            TrackList: 
+          </strong>
+         </h1>
+      </div>
+    </div>
+    <div *ngFor="let song of songs; index as idx" (click)="selectedSong(song)">
+      <div class="main-container-songs-list">
+        <div class="track-number">
+          <span>
+            {{ idx + 1 }}. {{ song.name }} </span>
+        </div>
+        <div style="margin-left: auto; font-size: 20px;">
+          <div class="add-song">
+            <ion-icon name="caret-forward"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

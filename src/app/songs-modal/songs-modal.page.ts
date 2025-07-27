@@ -25,4 +25,8 @@ export class SongsModalPage implements OnInit {
     console.log(song)
     await this.modalController.dismiss(song);
   }
+
+  async closeModal () {
+    await this.modalController.dismiss();
+  }
 }

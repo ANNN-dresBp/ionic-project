@@ -105,7 +105,7 @@ export class LoginPage implements OnInit {
         if (userLogged.status == 'OK') {
           await this.alerts.presentToast('Inicio de sesión exitoso', 'success');
           setTimeout(async () => {
-            await this.storageService.set('userSession', {loggedIn: true});
+            await this.storageService.set('userSession', {loggedIn: true, userData: userLogged});
             this.navCtrl.navigateForward('menu/home');
           }, 1000);
         } 

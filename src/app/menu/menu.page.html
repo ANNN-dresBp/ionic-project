@@ -1,28 +1,40 @@
 <ion-split-pane contentId="main-content">
-  <ion-menu contentId="main-content">
+  <ion-menu contentId="main-content" >
     <ion-header>
       <ion-toolbar>
-        <ion-menu-toggle>
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-menu-toggle>
-        <ion-title>
-          Menu
-        </ion-title>
+        <div style="padding: 10px; display: flex; gap: 5px">
+          <div>
+            <ion-menu-toggle>
+              <ion-icon name="close" style="font-size: 24px;"></ion-icon>
+            </ion-menu-toggle>
+          </div>
+          <div>
+            <ion-title> Menu </ion-title>
+          </div>
+        </div>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <section style="display: flex; flex-flow: column; height: 100%;">
-        <div>
-          <ul>
-            <li (click)="this.functions.goToView('/intro')">
-              Intro
-            </li>
-          </ul>
-        </div>
-        <div style="margin-top: auto;">
-          <ion-button (click)="goToLogin()">
-            Cerrar sesión
-          </ion-button>
+      <section style="height: 100%;">
+        <div style="padding: 10px; display: flex; flex-flow: column; height: 100%;">
+          <div>
+            <h6>Secciones</h6>
+          </div>
+          <div>
+            <ul>
+              <li (click)="this.functions.goToView('/intro')">
+                Intro
+              </li>
+            </ul>
+          </div>
+          <div (click)="goToLogin()" style="margin-top: auto; padding: 10px 15px; display: flex; gap: 5px;">
+            <div>
+              <ion-icon name="enter" style="font-size: 30px"></ion-icon>
+            </div>
+            <div style="align-content: center;">
+              <span>Cerrar sesión</span>
+            </div>
+          </div>
         </div>
       </section>
     </ion-content>

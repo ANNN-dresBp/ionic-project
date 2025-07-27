@@ -131,11 +131,16 @@ export class RegisterPage implements OnInit {
       this.authService.registerUser(credentials).then(async (res) =>  {
         console.log(res)
         console.log(credentials)
-        const registeredUser = this.userService.registerUser(credentials);
+        const registeredUser = await this.userService.registerUser(credentials);
         console.log(registeredUser);
-        await this.storageService.set('userData', credentials);
-        // const registeredUser = this.registerUser(credentials);
-        // this.navCtrl.navigateForward('/login');
+        if (registeredUser.status == 'OK') {
+          await this.alerts.presentToast('Usuario creado exitosamente!', 'success');
+          setTimeout(async () => {
+            await this.storageService.set('userData', credentials);
+            this.navCtrl.navigateForward('/login');
+          }, 1000);
+        }
+        
       }).catch(async (error) => {
         await this.alerts.presentToast('Credenciales incorrectas', 'danger');
       });

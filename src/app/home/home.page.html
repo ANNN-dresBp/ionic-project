@@ -1,5 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-toolbar>
+  <div class="toolbar-content">
     <ion-title style="padding: 10px;">
       <ion-row >
         <ion-row>
@@ -10,17 +10,15 @@
             <span>Music App</span>
           </div>
         </ion-row>
-        <div style="margin-left: auto;">
+        <div style="margin-left: auto; align-content: center;">
           <div>
-            <ion-button (click)="theme.cambiarColor()">Cambiar tema</ion-button>
+            <ion-icon name="moon" (click)="theme.cambiarColor()"></ion-icon>
           </div>
-          <!-- <img src="./../assets/icon/theme-icon.png" alt=""> -->
         </div>
       </ion-row>
     </ion-title>
-  </ion-toolbar>
-</ion-header>
-
+  </div>
+</ion-toolbar>
 
 <ion-content [fullscreen]="true">
   <div>
@@ -28,108 +26,155 @@
       <div>
         <div style="display: flex;">
           <div style="display: flex; gap: 5px; padding: 5px; margin-left: auto;">
-            <!-- <span style="font-weight: bold;">Tema actual: </span>
-            <span>{{(theme.actualColor === theme.darkColor) ? 'Oscuro' : 'Claro'}}</span> -->
           </div>
         </div>
       </div>
 
       <section>
         <div style="padding: 5px 15px;">
+
           <div>
-            <h2>
+            <h4 style="margin: 5px 0px">
               <strong>
                 Recomendaciones del día
               </strong>
-            </h2>
+            </h4>
           </div>
+
           <div>
             <div>
               <div>
                 <div>
-                  <h4>
-                      Albumes
-                  </h4>
+                  <h6> Albumes </h6>
                 </div>
                 <div>
-                  <swiper-container slides-per-view="1" freemode="true">
-                    <swiper-slide *ngFor="let album of albums" (click)="loadSongsByAlbum(album.id)">
-                      <div style="border: 1px solid black; border-radius: 50px 10px 10px 50px; overflow: hidden;">
-                        <div style="display: flex; height: 180px">
-                          <div style="border: 1px solid green;">
-                            <div>
-                              <div style="">
-                                 <img [src]="album.image" [alt]="album.label" style="width: 180px;">
-                              </div>
-                            </div>
-                          </div>
-                          <div style="border: 1px solid red"></div>
-                        </div>
-                      </div>
-                      <!-- <div style="width: 200px;">
+                  <swiper-container slides-per-view="3" freemode="true" space-between="30">
+                    <swiper-slide class="albums-slider" *ngFor="let album of albums" (click)="loadSongsByAlbum(album.id)">
+                      <div style="width: fit-content;">
                         <div>
-                          <div>
-                            <img [src]="album.image" [alt]="album.label" style="width: 250px;">
+                          <div style="overflow: hidden;">
+                            <img [src]="album.image" [alt]="album.label" style="width: 140px; border-radius: 8px;">
                           </div>
                         </div>
                         <div>
-                          <div>
-                            <span>
+                          <div style="overflow: hidden;">
+                            <span style="font-size: 12px;">
                               <strong>
                                 {{ album.name }}
                               </strong>
                             </span>
                           </div>
                         </div>
-                      </div> -->
+                      </div>
                     </swiper-slide>
                   </swiper-container>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- <swiper-container pagination="true" loop="true" slides-per-view="2" navigation="false">
-          <swiper-slide *ngFor="let album of albums" (click)="loadSongsByAlbum(album.id)">
-            <div class="slide-content">
-                    <img [src]="album.image"z>
-                    <h4>
-                      {{ album.name }}
-                    </h4>
-            </div>
-          </swiper-slide>
-        </swiper-container> -->
-      </section>
 
-      <!-- <section>
-        <swiper-container pagination="true" loop="true" slides-per-view="4" navigation="true" autoplay = "true">
-          <swiper-slide *ngFor="let genre of genres">
-            <div class="slide-content">
-              <ion-card>
-                <img [src]="genre.image" [alt]="genre.title" />
-                <ion-card-header>
-                  <ion-card-title>{{ genre.title }}</ion-card-title>
-                  <ion-card-subtitle>{{ genre.description }}</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
+          <div>
+            <div>
+              <div>
+                <h6> Artistas </h6>
+              </div>
+              <div>
+                <div class="main-container-artists-slides">
+                  <swiper-container slides-per-view="1" space-between="30" freemode="true">
+                    <swiper-slide *ngFor="let artist of artists" >
+                      <div (click)="loadSongsByArtist(artist.id)" style="background-color: var(--main-color); border-radius: 5px;">
+                        <div style="display: flex;">
+                          
+                          <div style="max-width: 90px; height: 90px; overflow: hidden; border-radius: 5px 0px 0px 5px;">
+                            <img [src]="artist.image" alt="" style="">
+                          </div>
+
+                          <div style="width: 100%; padding: 10px; display: flex; flex-flow: column; gap: 2px;"> 
+                            <div style="display: flex;">
+                              <div>
+                                <span style="font-size: 18px;">
+                                  <strong>
+                                    {{ artist.name }}
+                                  </strong>
+                                </span>
+                              </div>
+                              <div style="margin-left: auto;">
+                                  <div style="display: flex; gap: 2px;">
+                                      <span style="font-size: 10px; margin-top: 2px;">
+                                        Artista Verificado
+                                      </span>
+                                    <div>
+                                      <ion-icon name="checkmark-circle"></ion-icon>
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div style="font-size: 14px;">
+                              <span>
+                                <strong> Generos: </strong> 
+                              </span>
+                              <span>
+                               {{ artist.genres?.join(', ') || 'N/A' }} 
+                              </span>
+                            </div>
+
+                              <div style="margin-top: 5px; display: flex; gap: 4px;">
+                                <div>
+                                  <span style="font-size: 12px;">
+                                      20.000.000 de seguidores
+                                      <!-- {{ artist.followers }} Seguidores -->
+                                  </span>
+                                </div>
+                                <div>
+                                </div>
+                              </div>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </swiper-slide>
+                  </swiper-container>
+                </div>
+              </div>
             </div>
-          </swiper-slide>
-          
-        </swiper-container>
-      </section> -->
+          </div>
+
+        </div>
+      </section>
     </div>
   </div>
 </ion-content>
 
 <ion-footer>
-  <ion-text color="danger" *ngIf="!song?.name">
-    <h2>
-      Nombre canción
-    </h2>
-  </ion-text>
-  <ion-text color="primary" *ngIf="song?.name">
-    <h2>
-      {{ song?.name }}
-    </h2>
-  </ion-text>
+  <div class="music-footer">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-start">
+          {{ formatTime(currentSong?.currentTime) || '0:00' }}
+        </ion-col>
+        <ion-col class="ion-text-end">
+          {{ formatTime(getRemainingTime()) || '0:00' }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-progress-bar color="dark" [value]="newTime || 0"></ion-progress-bar>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-icon name="heart"></ion-icon>
+        </ion-col>
+        <ion-col size="10">
+          <ion-text>
+            {{ song.name || 'N/A'}}
+          </ion-text>
+        </ion-col>
+        <ion-col size="1">
+          <ion-icon name="play" *ngIf="!song.playing" (click)="playSong()"></ion-icon>
+          <ion-icon name="pause" *ngIf="song.playing" (click)="pauseSong()"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-footer>

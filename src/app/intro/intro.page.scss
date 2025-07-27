@@ -180,11 +180,16 @@ input:checked + .card{
 
 }
 .card-data > h2,
-.card-data > p{
+.card-data > p, 
+.card-data > .artista{
   transition: var(--duration) ease-in-out;
   transition-delay: var(--data-delay,0ms);
   opacity: var(--data-opacity, 0);
   translate: 0 var(--data-y, 20px);
+}
+
+.artista {
+  font-size: 14px;
 }
 .card-data > footer{
   display: flex;

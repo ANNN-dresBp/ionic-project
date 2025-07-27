@@ -16,6 +16,10 @@ import { ColorTheme } from '../home/home.page'
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IntroPage implements OnInit {
+
+  introData = {
+    img: ''
+  }
   // theme: ColorTheme;
   introBgColor = 'var(--light-color)';
   introTextColor = 'var(--dark-color)';

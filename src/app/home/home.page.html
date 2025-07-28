@@ -163,7 +163,9 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-icon name="heart"></ion-icon>
+          <div (click)="addFavoriteSong()">
+            <ion-icon id="addFavoriteIcon" name="heart"></ion-icon>
+          </div>
         </ion-col>
         <ion-col size="10">
           <ion-text>

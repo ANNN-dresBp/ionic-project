@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { IonicModule, ModalController} from '@ionic/angular';
+import { IonicModule, ModalController, ToastController} from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { StorageService } from '../services/storage.service';
@@ -7,6 +7,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, MenuController} from '@ion
 import {Router} from '@angular/router';
 import { MusicService } from '../services/music.service';
 import { SongsModalPage } from '../songs-modal/songs-modal.page';
+import { Alerts } from '../helpers/classes';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,8 @@ import { SongsModalPage } from '../songs-modal/songs-modal.page';
 })
 export class HomePage implements OnInit {
   theme: ColorTheme;
+  alerts: Alerts;
+  userSessionData: any;
   tracks: any;
   artists: any;
   albums: any;
@@ -28,14 +31,20 @@ export class HomePage implements OnInit {
   currentSong: any = {};
   newTime: any;
   
-  constructor(private storageService: StorageService, private router: Router, private musicService: MusicService, private element: ElementRef, private modalController: ModalController) {
+  constructor(private storageService: StorageService, private router: Router, private musicService: MusicService, private element: ElementRef, private modalController: ModalController, private toastController: ToastController) {
     this.theme = new ColorTheme(this.storageService, this.element);
+    this.alerts = new Alerts(toastController);
   }
   
   async ngOnInit () {
     await this.theme.loadStorageData();
     this.loadAlbums();
     this.loadArtists();
+    this.loadUserSessionData();
+  }
+
+  async loadUserSessionData () {
+    this.userSessionData = await this.storageService.get('userSession')
   }
 
   goToView (view: string) {
@@ -101,6 +110,24 @@ export class HomePage implements OnInit {
   pauseSong() {
     this.currentSong.pause();
     this.song.playing = false;
+  }
+
+  async addFavoriteSong() {
+    if (this.song.name === '') {
+      await this.alerts.presentToast('Debe seleccionar una canción!', 'danger', 'top');
+      return;
+    };
+    const songId = this.song.id;
+    const userId = this.userSessionData.userData.user.id;
+    const favoriteElement = document.querySelector("#addFavoriteIcon");
+    const addedSong = await this.musicService.addFavoriteSong(userId, songId);
+    
+    if (addedSong?.id) {
+      await this.alerts.presentToast('Canción añadida de forma exitosa!', 'success', 'top');
+      favoriteElement?.setAttribute('name', 'close');
+    } else {
+      await this.alerts.presentToast('Error al añadir la canción!', 'danger', 'top');
+    }
   }
 
   formatTime(seconds: number) {

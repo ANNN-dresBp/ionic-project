@@ -41,4 +41,24 @@ export class MusicService {
       response => response.json() 
     );
   }
+
+  async addFavoriteSong(userId: any, songId: any) {
+    return await fetch(`${this.urlServer}/favorite_tracks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "favorite_track": {
+          "user_id": userId,
+          "track_id": songId
+        }
+      }),
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    });
+  }
 } 

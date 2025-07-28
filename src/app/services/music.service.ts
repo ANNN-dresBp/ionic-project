@@ -42,6 +42,12 @@ export class MusicService {
     );
   }
 
+  async getUserFavoriteSongs(userId: any) {
+    return await fetch(`${this.urlServer}/user_favorites/${userId}`).then(
+      response => response.json() 
+    );
+  }
+
   async addFavoriteSong(userId: any, songId: any) {
     return await fetch(`${this.urlServer}/favorite_tracks`, {
       method: 'POST',
@@ -60,5 +66,11 @@ export class MusicService {
       }
       return response.json();
     });
+  }
+
+  async removeFavoriteSong(songId: any) {
+    return await fetch(`${this.urlServer}/favorite_tracks/${songId}`).then(
+      response => response.json() 
+    );
   }
 } 
